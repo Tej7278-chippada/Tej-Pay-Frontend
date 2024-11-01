@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button, TextField, Typography, Box } from "@mui/material";
 import axios from "axios";
 import Footer from "./Footer";
+import Header from "./Header";
 
 const PaymentForm = () => {
   const [amount, setAmount] = useState("");
@@ -40,7 +41,8 @@ const PaymentForm = () => {
 
   return (
     <div>
-      <Box sx={{ maxWidth: 500, margin: "auto", textAlign: "center" }}>
+      <Header/>
+      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="80vh" sx={{ maxWidth: 500, margin: "auto", textAlign: "center" }}>
         <Typography variant="h4" mb={2}>Payment Transfer</Typography>
         <TextField
           fullWidth

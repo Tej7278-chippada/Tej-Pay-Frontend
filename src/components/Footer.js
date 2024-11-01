@@ -7,9 +7,9 @@ const Footer = () => {
   return (
     <div>
         <Box sx={{ bgcolor: 'background.paper', p: 3, mt: 'auto', textAlign: 'center' }}>
-        <Typography variant="body2" color="textSecondary">
+        {/* <Typography variant="body2" color="textSecondary">
             &copy; Tej Pay 2024
-        </Typography>
+        </Typography> */}
         </Box>
         <Box sx={{ textAlign: "center", py: 2 }}>
         <Typography variant="body2" color="textSecondary">
