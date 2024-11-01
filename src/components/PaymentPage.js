@@ -11,12 +11,12 @@ const PaymentForm = () => {
   const handlePayment = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.post("https://your-backend-url.herokuapp.com/api/payments", { amount });
+      const { data } = await axios.post("https://tej-pay-d30700a52203.herokuapp.com/api/payments", { amount });
       const options = {
-        key: "YOUR_RAZORPAY_KEY_ID",
+        key: "rzp_live_SOG0BZHIb1FCq1",
         amount: data.amount,
         currency: data.currency,
-        name: "Your Company",
+        name: "Tej Pay",
         description: "Test Transaction",
         order_id: data.id,
         handler: (response) => {
