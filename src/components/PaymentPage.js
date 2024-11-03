@@ -1,13 +1,26 @@
 // src/components/PaymentForm.js
 import React, { useState } from "react";
-import { Button, TextField, Typography, Box } from "@mui/material";
+import { Button, TextField, Typography, Box, useMediaQuery, ThemeProvider, createTheme } from "@mui/material";
 import axios from "axios";
 import Footer from "./Footer";
 import Header from "./Header";
 
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+});
+
 const PaymentForm = () => {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
+  const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm')); // Media query for small screens
 
   const handlePayment = async () => {
     setLoading(true);
@@ -41,9 +54,12 @@ const PaymentForm = () => {
 
   return (
     <div>
+      <ThemeProvider theme={theme}>
       <Header/>
-      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="80vh" sx={{ maxWidth: 500, margin: "auto", textAlign: "center" }}>
-        <Typography variant="h4" mb={2}>Payment Transfer</Typography>
+      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="70vh" sx={{ maxWidth: 500, margin: "auto", textAlign: "center" }}
+      padding={isMobile ? 2 : 4} // Adjust padding for mobile
+      >
+        <Typography variant={isMobile ? "h5" : "h4"} mb={2}>Payment Transfer</Typography>
         <TextField
           fullWidth
           variant="outlined"
@@ -57,6 +73,7 @@ const PaymentForm = () => {
         </Button>
       </Box>
       <Footer/>
+      </ThemeProvider>
     </div>
   );
 };
