@@ -68,3 +68,24 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Tej Pay
+
+Creating a payment transfer page for credit cards, debit cards, and UPI payments requires integrating a payment gateway, which can handle transactions and securely transfer funds to a bank account. Here’s an outline of how to implement it with React, Node.js, MongoDB, and deploy it to Netlify, Heroku, and MongoDB Atlas.
+
+We'll use Razorpay as a payment gateway (widely used for payments in India), as it supports multiple payment methods like credit card, debit card, and UPI. Here's a breakdown:
+
+# Steps Overview
+Frontend (React): User interface with payment options.
+Backend (Node.js): Server to handle payment requests, call Razorpay API.
+Database (MongoDB): Store transaction details.
+Deployment: Netlify (frontend), Heroku (backend), and MongoDB Atlas (database).
+
+## Dependencies
+
+# Frontend:
+React (react, @mui/material for UI)
+Razorpay SDK
+
+# Backend:
+Express, Razorpay SDK, and MongoDB driver for Node.js

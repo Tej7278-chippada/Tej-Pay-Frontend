@@ -1,3 +1,4 @@
+// src/App.js
 import './App.css';
 import CancellationRefund from './components/Pages/CancellationRefund';
 import Contact from './components/Pages/Contact';
@@ -7,6 +8,8 @@ import TermsConditions from './components/Pages/TermsConditions';
 import PaymentForm from './components/PaymentPage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
+import PaymentsHistory from './components/Payments/PaymentsHistory';
+import AdminPaymentsHistory from './components/Payments/AdminPaymentsHistory';
 
 const theme = createTheme({
   breakpoints: {
@@ -26,6 +29,10 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<PaymentForm />} />
+        <Route path="/payments-history" element={<PaymentsHistory />} />
+        <Route path="/admin-payments-history" element={<AdminPaymentsHistory />} />
+
+
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/terms-conditions" element={<TermsConditions />} />
