@@ -77,10 +77,11 @@ const PaymentForm = () => {
             try {
               await axios.post(`${process.env.REACT_APP_API_URL}/api/payments/update`, {
                 razorpay_order_id: data.id,
+                razorpay_payment_id: data.razorpay_payment_id,
                 status: "Decliened",
                 contact: data.contact, // Replace with actual user contact
-                email: "customer@example.com", // Replace with actual user email
-                payment_method: "Razorpay", // Replace with actual payment method if applicable
+                email: data.email, // Replace with actual user email
+                payment_method: data.payment_method, // Replace with actual payment method if applicable
               });
             } catch (error) {
               console.error("Error updating failed payment:", error);
@@ -101,8 +102,8 @@ const PaymentForm = () => {
           razorpay_order_id: data.id,
           status: "failed",
           contact: data.contact, // Replace with actual user contact
-          email: "customer@example.com", // Replace with actual user email
-          payment_method: "Razorpay", // Replace with actual payment method if applicable
+          email: data.email, // Replace with actual user email
+          payment_method: data.payment_method, // Replace with actual payment method if applicable
         });
       } catch (error) {
         console.error("Error updating failed payment:", error);
