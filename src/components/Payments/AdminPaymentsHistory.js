@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import SearchBar from "./SearchBar";
+import SkeletonCards from "./SkeletonCards";
 
 const PaymentsHistory = () => {
   const [payments, setPayments] = useState([]);
@@ -20,18 +21,23 @@ const PaymentsHistory = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchDialogOpen, setSearchDialogOpen] = useState(false);
+  const [loading1, setLoading1] = useState(false);
 
   useEffect(() => {
     const fetchPayments = async () => {
+      setLoading1(true);
       try {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/payments-history`);
         setPayments(data);
       } catch (error) {
         console.error("Failed to fetch payment history:", error);
+      } finally {
+        setLoading1(false);
       }
     };
 
     fetchPayments();
+    setLoading1(true);
   }, []);
 
   const getStatusColor = (status) => {
@@ -113,18 +119,32 @@ const PaymentsHistory = () => {
       <Box 
         sx={{
           bgcolor: '#f5f5f5', borderRadius: '8px', margin: '8px', paddingInline: '8px', paddingTop: '1rem', paddingBottom: '1rem',
-          display: "grid",
-          gap: 2,
+          // display: "grid",
+          // gap: 2,
           // gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
         }}
       >
+        {loading1 ? (
+            <SkeletonCards/>
+          ) : (
         <Grid container spacing={2}>
         {payments.map((payment) => (
           <Grid item xs={12} sm={6} md={4} key={payment._id}>
           <Card
             key={payment.id}
             onClick={() => handleCardClick(payment)}
-            sx={{ cursor: "pointer", borderRadius: "8px" }}
+            sx={{ cursor: "pointer", borderRadius: "8px",
+              boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', // Default shadow
+            transition: 'transform 0.1s ease, box-shadow 0.2s ease', // Smooth transition for hover
+             }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.02)'; // Slight zoom on hover
+              e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)'; // Enhance shadow
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'; // Revert zoom
+              e.currentTarget.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)'; // Revert shadow
+            }}
           >
             <CardContent>
               <Typography variant="h6">
@@ -140,31 +160,41 @@ const PaymentsHistory = () => {
                   {payment.id || "N/A"}
                 </span>
               </Typography>
-              <Typography>Amount: ₹{payment.amount / 100}</Typography>
-              <Typography style={{ color: getStatusColor(payment.status) }}>
+              <Typography style={{ color: getStatusColor(payment.status), display: 'inline-block',float: 'right' }}>
                 Status:{" "}
                 {payment.status.charAt(0).toUpperCase() +
                   payment.status.slice(1)}
               </Typography>
+              <Typography>Amount: ₹{payment.amount / 100}</Typography>
+              
               {payment.refund_status && (
-                <Typography>Refund Status: {payment.refund_status}</Typography>
+                <Typography style={{display: 'inline-block',float: 'right'}}>
+                  Refund Status: {" "} <span style={{
+                    color: payment.refund_status === "full" ? "green" : "grey",
+                  }}>{payment.refund_status}</span>
+                  </Typography>
               )}
+              
+              <Typography>Payment Method: {payment.method || "N/A"}</Typography>
+              <Typography>Contact: {payment.contact}</Typography>
+              <Typography>Email: {payment.email}</Typography>
               <Typography>
                 Created At:{" "}
                 {new Date(payment.created_at * 1000).toLocaleString()}
               </Typography>
-              <Typography>Payment Method: {payment.method || "N/A"}</Typography>
-              <Typography>Contact: {payment.contact}</Typography>
-              <Typography>Email: {payment.email}</Typography>
             </CardContent>
           </Card>
           </Grid>
         ))}
         </Grid>
+        )}
         {selectedPayment && (
           <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-            <DialogTitle>Payment Details</DialogTitle>
-            <DialogContent>
+            <DialogTitle>Payment Details
+            <Button style={{ float: 'right', marginTop: '-8px' }} variant="text" onClick={() => setDialogOpen(false)}>Close</Button>
+            </DialogTitle>
+            <DialogContent sx={{padding: '1rem'}}>
+              <Card sx={{bgcolor: '#f5f5f5', padding: '1rem', borderRadius: '8px', minHeight: '200px'}}>
               <Typography variant="h6">
                 Order ID: {selectedPayment.order_id || "N/A"}
               </Typography>
@@ -181,8 +211,7 @@ const PaymentsHistory = () => {
                   {selectedPayment.id || "N/A"}
                 </span>
               </Typography>
-              <Typography>Amount: ₹{selectedPayment.amount / 100}</Typography>
-              <Typography style={{ color: getStatusColor(selectedPayment.status) }}>
+              <Typography style={{ color: getStatusColor(selectedPayment.status), display: 'inline-block',float: 'right' }}>
                 Status:{" "}
                 <span
                   style={{
@@ -195,8 +224,12 @@ const PaymentsHistory = () => {
                   {selectedPayment.status || "N/A"}
                 </span>
               </Typography>
+              <Typography>Amount: ₹{selectedPayment.amount / 100}</Typography>
+              
               {selectedPayment.refund_status && (
-                <Typography>Refund Status: {selectedPayment.refund_status}</Typography>
+                <Typography style={{display: 'inline-block',float: 'right'}}>Refund Status: {" "} <span style={{
+                  color: selectedPayment.refund_status === "full" ? "green" : "grey",
+                }}>{selectedPayment.refund_status}</span></Typography>
               )}
               <Typography>
                 Payment Method: {selectedPayment.method || "N/A"}
@@ -207,6 +240,7 @@ const PaymentsHistory = () => {
                 Created At:{" "}
                 {new Date(selectedPayment.created_at * 1000).toLocaleString()}
               </Typography>
+              </Card>
             </DialogContent>
           </Dialog>
         )}

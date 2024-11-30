@@ -11,8 +11,10 @@ import {
   CircularProgress,
   Toolbar,
   Button,
+  Grid,
 } from "@mui/material";
 import SearchBar from "./SearchBar";
+import SkeletonCards from "./SkeletonCards";
 // import SearchBarUser from "./SearchBarUser";
 
 const PaymentsHistory = () => {
@@ -20,20 +22,25 @@ const PaymentsHistory = () => {
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchDialogOpen, setSearchDialogOpen] = useState(false);
   // const [searchDialogUserOpen, setSearchDialogUserOpen] = useState(false);
 
   useEffect(() => {
+    setLoading1(true);
     const fetchPayments = async () => {
       try {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/payments`);
         setPayments(data);
       } catch (error) {
         console.error("Error fetching payments:", error);
+      } finally {
+        setLoading1(false);
       }
     };
     fetchPayments();
+    setLoading1(true);
   }, []);
 
   const fetchLatestPaymentDetails = async (orderId) => {
@@ -134,12 +141,32 @@ const PaymentsHistory = () => {
           Search Payments
         </Button> */}
       </Toolbar>
-    <Box sx={{ bgcolor: '#f5f5f5', borderRadius: '8px', margin: '8px', paddingInline: '8px', paddingTop: '1rem', paddingBottom: '1rem', display: "grid", gap: 2, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
-      
+      <div>
+    <Box sx={{ bgcolor: '#f5f5f5', borderRadius: '8px', margin: '8px', paddingInline: '8px', paddingTop: '1rem', paddingBottom: '1rem',  }}>
+    {loading1 ? (
+            // renderSkeletonCards()
+            <SkeletonCards/>
+            // <Box display="flex" justifyContent="center" alignItems="center" sx={{ height: "50vh" }}>
+            //   <CircularProgress />
+            // </Box>
+          ) : (
+            <Grid container spacing={2}>
       {payments.map((payment) => (
+        <Grid item xs={12} sm={6} md={4} key={payment._id}>
         <Card
           key={payment._id}
-          sx={{ borderRadius:'8px', cursor: "pointer" }}
+          sx={{ borderRadius:'8px', cursor: "pointer",
+            boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', // Default shadow
+            transition: 'transform 0.1s ease, box-shadow 0.2s ease', // Smooth transition for hover
+             }} // onClick={() => openProductDetail(product)}
+             onMouseEnter={(e) => {
+               e.currentTarget.style.transform = 'scale(1.02)'; // Slight zoom on hover
+               e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)'; // Enhance shadow
+             }}
+             onMouseLeave={(e) => {
+               e.currentTarget.style.transform = 'scale(1)'; // Revert zoom
+               e.currentTarget.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)'; // Revert shadow
+             }}
           onClick={() => handleCardClick(payment)}
         >
           <CardContent>
@@ -150,34 +177,43 @@ const PaymentsHistory = () => {
                 {payment.razorpay_payment_id || "N/A"}
               </span>
             </Typography>
-            <Typography>Amount: ₹{payment.amount}</Typography>
-            {/* <Typography style={{ color: getStatusColor(payment.status) }}>
-              Status: {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
-            </Typography> */}
-            <Typography>
+            <Typography sx={{display: 'inline-block',float: 'right'}}>
               Status:{" "}
               <span style={{ color: getStatusColor(payment.status) }}>
               {payment.status.charAt(0).toUpperCase() + payment.status.slice(1) || "N/A"}
               </span>
             </Typography>
+            <Typography>Amount: ₹{payment.amount}</Typography>
+            {/* <Typography style={{ color: getStatusColor(payment.status) }}>
+              Status: {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
+            </Typography> */}
+            
             <Typography>
               Created On: {new Date(payment.created_at).toLocaleString() || "N/A"}
             </Typography>
           </CardContent>
         </Card>
+        </Grid>
       ))}
+      </Grid>
+    )}
 
       {/* Dialog for Payment Details */}
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-        <DialogTitle>Payment Details</DialogTitle>
-        <DialogContent>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle>Payment Details
+        <Button style={{ float: 'right', marginTop: '-8px' }} variant="text" onClick={() => setDialogOpen(false)}>Close</Button>
+        </DialogTitle>
+        
+        <DialogContent sx={{padding: '1rem'}}>
+        <Card sx={{bgcolor: '#f5f5f5', borderRadius: '8px', minHeight: '200px'}}>
           {loading ? (
             <CircularProgress />
           ) : selectedPayment && selectedPayment.error ? (
             <Typography color="error">{selectedPayment.error}</Typography>
           ) : (
             selectedPayment && (
-              <>
+              
+                <CardContent>
                 <Typography variant="h6">Order ID: {selectedPayment.orderDetails?.id || "N/A"}</Typography>
                 <Typography>
                   Payment ID:{" "}
@@ -186,28 +222,32 @@ const PaymentsHistory = () => {
                   </span>
                 </Typography>
                 {/* <Typography>Payment ID: {selectedPayment.paymentDetails?.id || "N/A"}</Typography> */}
-                <Typography>Amount: ₹{selectedPayment.paymentDetails?.amount / 100 || "N/A"}</Typography>
-                {/* <Typography>Status: {selectedPayment.paymentDetails?.status || "N/A"}</Typography> */}
-                <Typography>
+                <Typography style={{display: 'inline-block',float: 'right'}}>
                   Status:{" "}
                   <span style={{ color: selectedPayment.paymentDetails?.status === "captured" ? "green" : "red" }}>
                   {selectedPayment.paymentDetails?.status || "N/A"}
                   </span>
                 </Typography>
+                <Typography>Amount: ₹{selectedPayment.paymentDetails?.amount / 100 || "N/A"}</Typography>
+                {/* <Typography>Status: {selectedPayment.paymentDetails?.status || "N/A"}</Typography> */}
+                
                 {selectedPayment.refund_status && (
-                <Typography>Refund Status: {selectedPayment.refund_status}</Typography>
+                <Typography style={{display: 'inline-block',float: 'right'}}>Refund Status: {selectedPayment.refund_status}</Typography>
               )}
                 <Typography>Method: {selectedPayment.paymentDetails?.method || "N/A"}</Typography>
                 <Typography>Contact: {selectedPayment.paymentDetails?.contact || "N/A"}</Typography>
                 <Typography>Email: {selectedPayment.paymentDetails?.email || "N/A"}</Typography>
                 <Typography>Created At: {new Date(selectedPayment.paymentDetails?.created_at * 1000).toLocaleString() || "N/A"}</Typography>
-                
-              </>
+                </CardContent>
+              
             )
           )}
+          </Card>
         </DialogContent>
       </Dialog>
+      
     </Box>
+    </div>
     {/* {searchDialogUserOpen && <SearchBarUser onClose={() => setSearchDialogUserOpen(false)} />} */}
 
     <Dialog open={searchDialogOpen} onClose={closeSearchDialog} maxWidth="md" fullWidth>
