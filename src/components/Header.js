@@ -41,7 +41,7 @@ const Header = () => {
             </Button>
             <Button
               variant="contained"
-              onClick={() => window.location.href = "/admin-payments-history"}
+              onClick={() => navigate("/admin-payments-history")} //onClick={() => window.location.href = "/admin-payments-history"}
               sx={{
                 backgroundColor: '#1976d2', // Primary blue
                 color: '#fff',
