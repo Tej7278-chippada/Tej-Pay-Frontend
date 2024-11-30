@@ -245,7 +245,7 @@ const PaymentsHistory = () => {
           </Dialog>
         )}
       </Box>
-      <Dialog open={searchDialogOpen} onClose={closeSearchDialog} maxWidth="md" fullWidth>
+      <Dialog open={searchDialogOpen} onClose={closeSearchDialog} maxWidth="lg" fullWidth>
         <DialogTitle>Search Results
         <Button style={{ float: 'right', marginTop: '-10px' }} variant="text" onClick={closeSearchDialog}>Close</Button>
         </DialogTitle>
@@ -253,14 +253,16 @@ const PaymentsHistory = () => {
         <DialogContent sx={{scrollbarWidth:'thin'}}>
         <Box
         sx={{
-          bgcolor: '#f5f5f5', borderRadius: '8px', margin: '8px', paddingInline: '8px', paddingTop: '1rem', paddingBottom: '1rem',
+          bgcolor: '#f5f5f5', borderRadius: '8px', margin: '-1rem', paddingInline: '8px', paddingTop: '2rem', paddingBottom: '1rem',
           display: "grid", minHeight: '400px', 
           gap: 1,
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          // gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
         }}
       >
+        <Grid container spacing={2}>
           {searchResults.length > 0 ? (
             searchResults.map((payment) => (
+              <Grid item xs={12} sm={6} md={4} key={payment._id}>
               <Card key={payment.id} sx={{ marginBottom: "0px", borderRadius: "8px" }}>
                 <CardContent>
                   <Typography variant="h6">Order ID: {payment.order_id || "N/A"}</Typography>
@@ -275,8 +277,7 @@ const PaymentsHistory = () => {
                 >
                   {payment.id || "N/A"}
                 </span></Typography>
-                  <Typography>Amount: ₹{payment.amount / 100}</Typography>
-                  <Typography style={{ color: getStatusColor(payment.status) }}>
+                <Typography style={{ color: getStatusColor(payment.status), display: 'inline-block',float: 'right' }}>
                     Status:{" "}
                     <span
                       style={{
@@ -289,8 +290,12 @@ const PaymentsHistory = () => {
                       {payment.status || "N/A"}
                     </span>
                   </Typography>
+                  <Typography>Amount: ₹{payment.amount / 100}</Typography>
+                  
                   {payment.refund_status && (
-                    <Typography>Refund Status: {payment.refund_status}</Typography>
+                    <Typography style={{display: 'inline-block',float: 'right'}}>Refund Status: {" "} <span style={{
+                      color: payment.refund_status === "full" ? "green" : "grey",
+                    }}>{payment.refund_status}</span></Typography>
                   )}
                   <Typography>Payment Method: {payment.method || "N/A"}</Typography>
                   <Typography>Contact: {payment.contact || "N/A"}</Typography>
@@ -300,10 +305,12 @@ const PaymentsHistory = () => {
                   </Typography>
                 </CardContent>
               </Card>
+              </Grid>
             ))
           ) : (
-            <Typography>No results found.</Typography>
+            <Typography style={{padding: '1rem'}}>No results found.</Typography>
           )}
+          </Grid>
           </Box>
         </DialogContent>
       </Dialog>
