@@ -27,8 +27,15 @@ const PaymentForm = () => {
 
   const handlePayment = async () => {
     setLoading(true);
-    try {                              // "https://tej-pay-d30700a52203.herokuapp.com/api/payments"
-      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/payments`, { amount });
+    try {
+      const token = localStorage.getItem('authToken'); // Adjust this to where you store your token
+      // "https://tej-pay-d30700a52203.herokuapp.com/api/payments"
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/payments`, { amount },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       const options = {
         key: "rzp_live_SOG0BZHIb1FCq1",
         amount: data.amount,
@@ -42,6 +49,11 @@ const PaymentForm = () => {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             });
             setAlert({
               open: true,
@@ -82,6 +94,11 @@ const PaymentForm = () => {
                 contact: data.contact, // Replace with actual user contact
                 email: data.email, // Replace with actual user email
                 payment_method: data.payment_method, // Replace with actual payment method if applicable
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
               });
             } catch (error) {
               console.error("Error updating failed payment:", error);
@@ -104,6 +121,11 @@ const PaymentForm = () => {
           contact: data.contact, // Replace with actual user contact
           email: data.email, // Replace with actual user email
           payment_method: data.payment_method, // Replace with actual payment method if applicable
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
       } catch (error) {
         console.error("Error updating failed payment:", error);
