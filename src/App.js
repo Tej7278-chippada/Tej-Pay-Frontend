@@ -10,6 +10,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
 import PaymentsHistory from './components/Payments/PaymentsHistory';
 import AdminPaymentsHistory from './components/Payments/AdminPaymentsHistory';
+import Register from './components/User/Register';
+import Login from './components/User/Login';
+import PrivateRoute from './components/User/PriviteRoute';
+import UserProfile from './components/User/UserProfile';
 
 const theme = createTheme({
   breakpoints: {
@@ -28,7 +32,18 @@ function App() {
     <ThemeProvider theme={theme}>
     <Router>
       <Routes>
-        <Route path="/" element={<PaymentForm />} />
+        <Route path="/paymentForm" element={
+          <PrivateRoute>
+            <PaymentForm />
+            </PrivateRoute>
+          } />
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/user/:id" element={
+          <PrivateRoute>
+            <UserProfile />
+          </PrivateRoute>} 
+        />
         <Route path="/payments-history" element={<PaymentsHistory />} />
         <Route path="/admin-payments-history" element={<AdminPaymentsHistory />} />
 
