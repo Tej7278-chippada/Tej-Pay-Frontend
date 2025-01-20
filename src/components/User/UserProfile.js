@@ -21,7 +21,6 @@ import {
   ListItemText,
   Card,
   TextField,
-  CircularProgress,
 } from '@mui/material';
 // import API from '../../api/sellerApi';
 // import SellerLayout from './SellerLayout';
