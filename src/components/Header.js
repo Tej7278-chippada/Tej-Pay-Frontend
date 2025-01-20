@@ -117,7 +117,7 @@ const Header = ({ username }) => {
       <AppBar position="static">
         <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ color: 'inherit', textDecoration: 'none', display: 'inline-block' }}>
+          <Link to="/paymentForm" style={{ color: 'inherit', textDecoration: 'none', display: 'inline-block' }}>
             Tej Pay
           </Link>
         </Typography>
