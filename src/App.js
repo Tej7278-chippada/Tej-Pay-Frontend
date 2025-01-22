@@ -14,6 +14,7 @@ import Register from './components/User/Register';
 import Login from './components/User/Login';
 import PrivateRoute from './components/User/PriviteRoute';
 import UserProfile from './components/User/UserProfile';
+import UserPaymentsHistory from './components/Payments/UserPaymentsHistory';
 
 const theme = createTheme({
   breakpoints: {
@@ -44,6 +45,12 @@ function App() {
             <UserProfile />
           </PrivateRoute>} 
         />
+        <Route path="/user-payments" element={
+          <PrivateRoute>
+            <UserPaymentsHistory />
+            </PrivateRoute>
+          } />
+
         <Route path="/payments-history" element={<PaymentsHistory />} />
         <Route path="/admin-payments-history" element={<AdminPaymentsHistory />} />
 

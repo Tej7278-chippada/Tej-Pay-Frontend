@@ -31,7 +31,7 @@ const PaymentsHistory = () => {
     setLoading1(true);
     const fetchPayments = async () => {
       try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/payments`);
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/adminPayments/payments-history`);
         setPayments(data);
       } catch (error) {
         console.error("Error fetching payments:", error);

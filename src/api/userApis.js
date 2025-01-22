@@ -270,3 +270,16 @@ export const deleteUserProfile = async (userId) => {
 //   const response = await axios.post("/api/offers/add/offer", offer);
 //   return response;
 // };
+
+// Fetch User Payment History
+export const fetchUserPayments = async () => {
+  const authToken = localStorage.getItem('authToken');
+  const headers = authToken ? { Authorization: `Bearer ${authToken}` } : {};
+  try {
+    const response = await API.get('/api/payments', { headers });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user payments:', error);
+    throw error;
+  }
+};

@@ -27,7 +27,7 @@ const PaymentsHistory = () => {
     const fetchPayments = async () => {
       setLoading1(true);
       try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/payments-history`);
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/adminPayments/razorpay-history`);
         setPayments(data);
       } catch (error) {
         console.error("Failed to fetch payment history:", error);

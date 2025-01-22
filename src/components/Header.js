@@ -122,6 +122,26 @@ const Header = ({ username }) => {
           </Link>
         </Typography>
         <Button
+          variant="contained"
+          onClick={() => navigate("/user-payments")}
+          sx={{
+            backgroundColor: '#1976d2', // Primary blue
+            color: '#fff',
+            padding: '8px 16px',
+            borderRadius: '24px',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+            '&:hover': {
+              backgroundColor: '#1565c0', // Darker shade on hover
+            },
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px', marginRight: '1rem'
+          }}
+        >
+          <ReceiptIcon sx={{ fontSize: '20px' }} />
+          {/* <span style={{ fontSize: '14px', fontWeight: '500' }}>Payment History</span> */}
+        </Button>
+        <Button
               variant="contained"
               onClick={() => navigate("/payments-history")}
               sx={{
