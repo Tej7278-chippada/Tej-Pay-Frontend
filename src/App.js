@@ -14,7 +14,7 @@ import Register from './components/User/Register';
 import Login from './components/User/Login';
 import PrivateRoute from './components/User/PriviteRoute';
 import UserProfile from './components/User/UserProfile';
-import UserPaymentsHistory from './components/Payments/UserPaymentsHistory';
+import UserPaymentsHistory from './components/User/UserPaymentsHistory';
 
 const theme = createTheme({
   breakpoints: {

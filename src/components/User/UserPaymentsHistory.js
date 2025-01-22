@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Card, CardContent, Grid, Dialog, DialogTitle, Button, DialogContent, CircularProgress } from '@mui/material';
 import { fetchUserPayments } from '../../api/userApis';
-import Layout from '../User/Layout';
-import SkeletonCards from './SkeletonCards';
+import Layout from './Layout';
+import SkeletonCards from '../Payments/SkeletonCards';
 import axios from 'axios';
 
 const UserPaymentsHistory = () => {
