@@ -16,6 +16,8 @@ import {
 import SearchBar from "./SearchBar";
 import SkeletonCards from "./SkeletonCards";
 import Layout from "../User/Layout";
+import { fetchPayments } from "../../api/adminApis";
+import RenderPagination from "../RenderPagination";
 // import SearchBarUser from "./SearchBarUser";
 
 const PaymentsHistory = () => {
@@ -27,22 +29,44 @@ const PaymentsHistory = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchDialogOpen, setSearchDialogOpen] = useState(false);
   // const [searchDialogUserOpen, setSearchDialogUserOpen] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(parseInt(localStorage.getItem('currentPage')) || 1);
+  const [paymentsPerPage] = useState(12); // Show six products per page
+
 
   useEffect(() => {
-    setLoading1(true);
-    const fetchPayments = async () => {
-      try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/adminPayments/payments-history`);
-        setPayments(data);
-      } catch (error) {
-        console.error("Error fetching payments:", error);
-      } finally {
-        setLoading1(false);
-      }
+    const fetchData = async () => {
+        setLoading1(true);
+        localStorage.setItem('currentPage', currentPage); // Persist current page to localStorage
+        try {
+            const response = await fetchPayments(currentPage, paymentsPerPage);
+            const { payments, totalPages } = response.data;
+            setPayments(payments);
+            setTotalPages(totalPages);
+            setLoading1(false);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            setLoading1(false);
+        }
     };
-    fetchPayments();
-    setLoading1(true);
-  }, []);
+    fetchData();
+  }, [currentPage, paymentsPerPage]);
+
+  // useEffect(() => {
+  //   setLoading1(true);
+  //   const fetchPayments = async () => {
+  //     try {
+  //       const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/adminPayments/payments-history`);
+  //       setPayments(data);
+  //     } catch (error) {
+  //       console.error("Error fetching payments:", error);
+  //     } finally {
+  //       setLoading1(false);
+  //     }
+  //   };
+  //   fetchPayments();
+  //   setLoading1(true);
+  // }, []);
 
   const fetchLatestPaymentDetails = async (orderId) => {
     setLoading(true);
@@ -319,6 +343,27 @@ const PaymentsHistory = () => {
           </Box>
         </DialogContent>
       </Dialog>
+
+      {/* Pagination */}
+      <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              mt: 4,
+              p: 2,
+            }}
+          >
+            {/* {renderPagination()} */}
+            <RenderPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              setCurrentPage={(page) => {
+                setCurrentPage(page);
+                localStorage.setItem('currentPage', page);
+            }}
+            />
+          </Box>
     </Layout>
     </div>
   );
