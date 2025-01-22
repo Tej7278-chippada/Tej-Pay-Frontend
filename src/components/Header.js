@@ -121,7 +121,7 @@ const Header = ({ username }) => {
             Tej Pay
           </Link>
         </Typography>
-        <Button
+        {/* <Button
           variant="contained"
           onClick={() => navigate("/user-payments")}
           sx={{
@@ -139,9 +139,9 @@ const Header = ({ username }) => {
           }}
         >
           <ReceiptIcon sx={{ fontSize: '20px' }} />
-          {/* <span style={{ fontSize: '14px', fontWeight: '500' }}>Payment History</span> */}
-        </Button>
-        <Button
+          <span style={{ fontSize: '14px', fontWeight: '500' }}>Payment History</span>
+        </Button> */}
+        {/* <Button
               variant="contained"
               onClick={() => navigate("/payments-history")}
               sx={{
@@ -159,7 +159,7 @@ const Header = ({ username }) => {
               }}
             >
               <ReceiptIcon sx={{ fontSize: '20px' }} />
-              {/* <span style={{ fontSize: '14px', fontWeight: '500' }}>Payment History</span> */}
+              <span style={{ fontSize: '14px', fontWeight: '500' }}>Payment History</span>
             </Button>
             <Button
               variant="contained"
@@ -179,8 +179,8 @@ const Header = ({ username }) => {
               }}
             >
               <AccountCircleIcon sx={{ fontSize: '20px' }} />
-              {/* <span style={{ fontSize: '14px', fontWeight: '500' }}>Admin</span> */}
-            </Button>
+              <span style={{ fontSize: '14px', fontWeight: '500' }}>Admin</span>
+            </Button> */}
         
     
           {/* <Link to="/admin-payments-history" style={{ color: 'white', textDecoration: 'none', marginRight: '15px' }}>Admin Page</Link>
@@ -199,6 +199,7 @@ const Header = ({ username }) => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={() => openUserProfile()}>My Profile</MenuItem>
+                <MenuItem onClick={() => navigate("/user-payments")}>Payments History</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 <MenuItem onClick={handleSwitchProfile}>Switch Profile</MenuItem>
               </Menu>

@@ -81,7 +81,7 @@ const UserPaymentsHistory = () => {
   return (
     <Layout>
     <Container style={{marginTop:'1rem', marginBottom:'1rem'}}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h5" gutterBottom>
         Payment History
       </Typography>
       {payments.length === 0 ? (
@@ -90,7 +90,7 @@ const UserPaymentsHistory = () => {
         <Grid container spacing={3}>
           {payments.map((payment) => (
             <Grid item xs={12} sm={6} md={4} key={payment._id}>
-              <Card onClick={() => handleCardClick(payment)}>
+              <Card sx={{cursor:'pointer'}} onClick={() => handleCardClick(payment)}>
                 <CardContent>
                   {/* <Typography variant="h6">Order ID: {payment.razorpay_order_id}</Typography>
                   <Typography>Amount: ₹{payment.amount}</Typography>
@@ -137,7 +137,7 @@ const UserPaymentsHistory = () => {
         <DialogContent sx={{padding: '1rem'}}>
         <Card sx={{bgcolor: '#f5f5f5', borderRadius: '8px', minHeight: '200px'}}>
           {loading1 ? (
-            <CircularProgress />
+            <CircularProgress style={{margin:'1rem'}}/>
           ) : selectedPayment && selectedPayment.error ? (
             <Typography color="error">{selectedPayment.error}</Typography>
           ) : (

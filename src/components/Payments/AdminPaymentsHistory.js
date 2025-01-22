@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import SearchBar from "./SearchBar";
 import SkeletonCards from "./SkeletonCards";
+import Layout from "../User/Layout";
 
 const PaymentsHistory = () => {
   const [payments, setPayments] = useState([]);
@@ -87,6 +88,7 @@ const PaymentsHistory = () => {
 
   return (
     <div>
+      <Layout>
       <Toolbar
         sx={{
           display: "flex",
@@ -314,6 +316,7 @@ const PaymentsHistory = () => {
           </Box>
         </DialogContent>
       </Dialog>
+      </Layout>
     </div>
   );
 };
