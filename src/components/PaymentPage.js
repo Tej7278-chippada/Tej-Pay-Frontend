@@ -71,9 +71,11 @@ const PaymentForm = () => {
       return;
     }
     try {
+      console.log("Verifying UPI ID:", upiId);
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/validationRazorPayRoutes/validate-upi`,
+        `${process.env.REACT_APP_API_URL}/api/validationCashFreeRoutes/validate-upi`,
         { upiId });
+        console.log("Backend response for UPI validation:", response.data);
 
       if (response.data.success) {
         setUpiVerified(true);
@@ -223,6 +225,7 @@ const PaymentForm = () => {
                 value={upiId}
                 onChange={(e) => setUpiId(e.target.value)}
                 margin="normal"
+                placeholder="e.g., yourname@bank"
               />
               <Button
                 variant="contained"
@@ -268,7 +271,7 @@ const PaymentForm = () => {
 
           {/* Amount Input Step */}
           {/* {upiVerified && ( */}
-            {/* // <> */}
+            {/* <> */}
         <TextField
           fullWidth
           variant="outlined"
@@ -281,7 +284,7 @@ const PaymentForm = () => {
           {loading ? "Processing..." : "Pay Now"}
         </Button>
         {/* </> */}
-          {/* )} */}
+         {/* )} */}
       </Box>
       <Snackbar
           open={alert.open}
