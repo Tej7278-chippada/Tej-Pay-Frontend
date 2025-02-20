@@ -70,7 +70,10 @@ const UserPaymentsHistory = () => {
     return (
         <Layout>
         <Container>
-            <SkeletonCards/>
+          <Typography variant="h5" gutterBottom marginTop={2}>
+            Payment History
+          </Typography>
+          <SkeletonCards/>
             {/* <CircularProgress /> */}
             {/* <Typography>Loading payment history...</Typography> */}
         </Container>
@@ -87,10 +90,10 @@ const UserPaymentsHistory = () => {
       {payments.length === 0 ? (
         <Typography variant="body1">No payment history available.</Typography>
       ) : (
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           {payments.map((payment) => (
             <Grid item xs={12} sm={6} md={4} key={payment._id}>
-              <Card sx={{cursor:'pointer'}} onClick={() => handleCardClick(payment)}>
+              <Card sx={{cursor:'pointer', borderRadius:'6px'}} onClick={() => handleCardClick(payment)}>
                 <CardContent>
                   {/* <Typography variant="h6">Order ID: {payment.razorpay_order_id}</Typography>
                   <Typography>Amount: ₹{payment.amount}</Typography>

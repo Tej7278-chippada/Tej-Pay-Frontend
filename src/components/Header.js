@@ -1,9 +1,8 @@
 // Header.js
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Box, Button, IconButton, Menu, MenuItem, Dialog, List, ListItem, ListItemText } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Dialog, List, ListItem, ListItemText } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ReceiptIcon from '@mui/icons-material/Receipt';
 
 const Header = ({ username }) => {
   const navigate = useNavigate();
@@ -75,10 +74,10 @@ const Header = ({ username }) => {
     setAnchorEl(null);
   };
   
-  const handleSwitchProfile = () => {
-    setOpenDialog(true);
-    setAnchorEl(null);
-  };
+  // const handleSwitchProfile = () => {
+  //   setOpenDialog(true);
+  //   setAnchorEl(null);
+  // };
 
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -201,7 +200,7 @@ const Header = ({ username }) => {
                 <MenuItem onClick={() => openUserProfile()}>My Profile</MenuItem>
                 <MenuItem onClick={() => navigate("/user-payments")}>Payments History</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                <MenuItem onClick={handleSwitchProfile}>Switch Profile</MenuItem>
+                {/* <MenuItem onClick={handleSwitchProfile}>Switch Profile</MenuItem> */}
               </Menu>
               <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
                 <List style={{ cursor: 'pointer' }}>

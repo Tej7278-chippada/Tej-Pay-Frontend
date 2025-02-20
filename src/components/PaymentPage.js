@@ -19,79 +19,79 @@ const theme = createTheme({
 });
 
 const PaymentForm = () => {
-  const [accountNumber, setAccountNumber] = useState("");
-  const [ifscCode, setIfscCode] = useState("");
-  const [bankVerified, setBankVerified] = useState(false);
-  const [upiId, setUpiId] = useState("");
-  const [upiVerified, setUpiVerified] = useState(false);
+  // const [accountNumber, setAccountNumber] = useState("");
+  // const [ifscCode, setIfscCode] = useState("");
+  // const [bankVerified, setBankVerified] = useState(false);
+  // const [upiId, setUpiId] = useState("");
+  // const [upiVerified, setUpiVerified] = useState(false);
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ open: false, message: "", severity: "info" });
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm')); // Media query for small screens
   // const navigate = useNavigate();
 
-  const verifyBankDetails = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/validationRazorPayRoutes/validate-bank`,
-        { accountNumber, ifscCode }
-      );
+  // const verifyBankDetails = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axios.post(
+  //       `${process.env.REACT_APP_API_URL}/api/validationRazorPayRoutes/validate-bank`,
+  //       { accountNumber, ifscCode }
+  //     );
 
-      if (response.data.success) {
-        setBankVerified(true);
-        setAlert({ open: true, message: "Bank account details verified successfully!", severity: "success" });
-      } else {
-        throw new Error("Bank verification failed");
-      }
-    } catch (error) {
-      console.error("Bank verification failed:", error);
-      setAlert({ open: true, message: "Invalid bank account details, please check again.", severity: "error" });
-      setBankVerified(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (response.data.success) {
+  //       setBankVerified(true);
+  //       setAlert({ open: true, message: "Bank account details verified successfully!", severity: "success" });
+  //     } else {
+  //       throw new Error("Bank verification failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Bank verification failed:", error);
+  //     setAlert({ open: true, message: "Invalid bank account details, please check again.", severity: "error" });
+  //     setBankVerified(false);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
 
 
 
   // Regex to validate UPI ID format
-  const validateUpiIdFormat = (upiId) => {
-    const upiRegex = /^[a-zA-Z0-9_.-]+@[a-zA-Z]{2,4}$/;
-    return upiRegex.test(upiId);
-  };
+  // const validateUpiIdFormat = (upiId) => {
+  //   const upiRegex = /^[a-zA-Z0-9_.-]+@[a-zA-Z]{2,4}$/;
+  //   return upiRegex.test(upiId);
+  // };
 
-  const verifyUpiId = async () => {
-    setLoading(true);
-    if (!validateUpiIdFormat(upiId)) {
-      setAlert({ open: true, message: "Invalid UPI ID format", severity: "error" });
-      setUpiVerified(false);
-      setLoading(false);
-      return;
-    }
-    try {
-      console.log("Verifying UPI ID:", upiId);
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/validationCashFreeRoutes/validate-upi`,
-        { upiId });
-        console.log("Backend response for UPI validation:", response.data);
+  // const verifyUpiId = async () => {
+  //   setLoading(true);
+  //   if (!validateUpiIdFormat(upiId)) {
+  //     setAlert({ open: true, message: "Invalid UPI ID format", severity: "error" });
+  //     setUpiVerified(false);
+  //     setLoading(false);
+  //     return;
+  //   }
+  //   try {
+  //     console.log("Verifying UPI ID:", upiId);
+  //     const response = await axios.post(
+  //       `${process.env.REACT_APP_API_URL}/api/validationCashFreeRoutes/validate-upi`,
+  //       { upiId });
+  //       console.log("Backend response for UPI validation:", response.data);
 
-      if (response.data.success) {
-        setUpiVerified(true);
-        setAlert({ open: true, message: "UPI ID verified successfully!", severity: "success" });
-      } else {
-        setAlert({ open: true, message: "Invalid UPI ID, please enter a valid UPI ID.", severity: "error" });
-        setUpiVerified(false);
-      }
-    } catch (error) {
-      console.error("UPI verification failed:", error.response?.data || error.message);
-      setAlert({ open: true, message: "Error validating UPI ID. Please try again later.", severity: "error" });
-      setUpiVerified(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (response.data.success) {
+  //       setUpiVerified(true);
+  //       setAlert({ open: true, message: "UPI ID verified successfully!", severity: "success" });
+  //     } else {
+  //       setAlert({ open: true, message: "Invalid UPI ID, please enter a valid UPI ID.", severity: "error" });
+  //       setUpiVerified(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("UPI verification failed:", error.response?.data || error.message);
+  //     setAlert({ open: true, message: "Error validating UPI ID. Please try again later.", severity: "error" });
+  //     setUpiVerified(false);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handlePayment = async () => {
     setLoading(true);
