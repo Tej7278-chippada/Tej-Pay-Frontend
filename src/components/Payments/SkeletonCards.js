@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Grid, Skeleton, Typography } from "@mui/material";
+import { Box, Card, CardContent, Grid, Skeleton } from "@mui/material";
 import React from "react";
 
 const SkeletonCards = () => (
