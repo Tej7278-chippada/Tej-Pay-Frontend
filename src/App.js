@@ -15,6 +15,7 @@ import Login from './components/User/Login';
 import PrivateRoute from './components/User/PriviteRoute';
 import UserProfile from './components/User/UserProfile';
 import UserPaymentsHistory from './components/User/UserPaymentsHistory';
+import NotFound from './components/NotFound'; // Import 404 Page
 
 const theme = createTheme({
   breakpoints: {
@@ -60,6 +61,8 @@ function App() {
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/cancellation-refund" element={<CancellationRefund />} />
         <Route path="/shipping-delivery" element={<ShippingDelivery />} />
+        {/* 404 Not Found Page */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
     </ThemeProvider>
